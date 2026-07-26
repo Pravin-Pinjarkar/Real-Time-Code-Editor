@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hybridscript — Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+
+<!-- ── TITLEBAR ──────────────────────────────────────────────────────── -->
+<div class="titlebar">
+  <div class="titlebar-left">
+    <div class="titlebar-logo">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline>
+      </svg>
+    </div>
+    <span class="titlebar-brand">Hybridscript</span>
+  </div>
+  <div class="titlebar-right">
+    <div class="user-chip">
+      <div class="user-chip-avatar" id="dashAvatar"></div>
+      <span id="dashUsername"></span>
+    </div>
+    <button class="titlebar-btn" id="logoutBtn" title="Logout">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+        <polyline points="16 17 21 12 16 7"></polyline>
+        <line x1="21" y1="12" x2="9" y2="12"></line>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<!-- ── LAYOUT ────────────────────────────────────────────────────────── -->
+<div class="dash-layout">
+
+  <!-- LEFT SIDEBAR -->
+  <aside class="dash-sidebar">
+    <nav class="sidebar-nav">
+      <div class="sidebar-nav-item active" data-section="projects">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 3h6l2 3h10a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"></path>
+        </svg>
+        Projects
+      </div>
+      <div class="sidebar-nav-item" data-section="friends">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="9" cy="7" r="4"></circle>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+        </svg>
+        Chat with Friends
+      </div>
+      <div class="sidebar-nav-item" data-section="create">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        Create Project
+      </div>
+    </nav>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="dash-main">
+
+    <!-- INVITATIONS (shown when present) -->
+    <div id="invitationSection" class="hidden">
+      <div class="section-header">
+        <h3>📬 Pending Invitations</h3>
+      </div>
+      <div id="invitationList" class="invitation-list"></div>
+    </div>
+
+    <!-- PROJECTS CONTENT -->
+    <div id="projects-content">
+      <div class="section-header">
+        <div>
+          <h2 class="dash-heading">Projects</h2>
+          <p class="dash-subheading">Click a project to open its workspace</p>
+        </div>
+        <button class="create-btn" id="createProjectBtn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          New Project
+        </button>
+      </div>
+
+      <div class="project-grid" id="projectGrid"></div>
+
+      <div class="empty-state hidden" id="emptyState">
+        <div class="empty-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M3 3h6l2 3h10a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"></path>
+          </svg>
+        </div>
+        <h3>No projects yet</h3>
+        <p>Create your first project to start collaborating</p>
+        <button class="create-btn" onclick="document.getElementById('createProjectBtn').click()">Create Project</button>
+      </div>
+    </div>
+
+    <!-- FRIENDS / DM CONTENT -->
+    <div id="friends-content" class="hidden">
+      <div class="friends-layout">
+        <!-- Contact list -->
+        <div class="friends-sidebar">
+          <div class="section-header"><h3>Friends</h3></div>
+          <div id="friendsList" class="friends-list"></div>
+        </div>
+        <!-- DM chat area -->
+        <div class="friends-chat">
+          <div class="friends-chat-header">
+            <span id="friendsChatTitle">Select a friend to chat</span>
+          </div>
+          <div class="messages-container" id="dmMessages">
+            <div class="chat-empty">
+              <p>Select a friend to start a conversation</p>
+            </div>
+          </div>
+          <div class="typing-indicator" id="dmTyping"></div>
+          <div class="chat-input-area">
+            <input type="text" id="dmInput" placeholder="Message..." autocomplete="off" disabled>
+            <button class="chat-send-btn" id="dmSendBtn" disabled>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ── CREATE PROJECT MODAL ──────────────────────────────────────────── -->
+<div class="modal-backdrop hidden" id="modalOverlay"></div>
+<div class="modal hidden" id="createModal">
+  <div class="modal-header">
+    <h3>New Project</h3>
+    <button class="modal-close" id="modalClose">×</button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <label class="form-label">Project Name</label>
+      <input type="text" id="projectName" class="form-input" placeholder="e.g. My Web App" maxlength="60">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Invite Members</label>
+      <input type="text" id="memberSearch" class="form-input" placeholder="Search online users...">
+      <div class="member-list" id="memberList">
+        <p class="member-list-empty">Connect to see online users</p>
+      </div>
+    </div>
+    <div class="selected-members" id="selectedTags"></div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn-ghost" id="cancelCreate">Cancel</button>
+    <button class="btn-primary" id="confirmCreate">Create Project</button>
+  </div>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/project.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>

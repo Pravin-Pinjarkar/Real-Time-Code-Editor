@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hybridscript — Sign In</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+
+<div class="login-page">
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="login-logo-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="16 18 22 12 16 6"></polyline>
+          <polyline points="8 6 2 12 8 18"></polyline>
+        </svg>
+      </div>
+      <div>
+        <h1 class="login-title">Hybridscript</h1>
+        <p class="login-subtitle">Collaborative Code Editor + P2P Chat</p>
+      </div>
+    </div>
+
+    <!-- Clerk sign-in widget mounts here -->
+    <div id="clerk-sign-in"></div>
+
+    <div id="msg" class="message" style="display:none"></div>
+    <div id="loadingSpinner" class="spinner hidden"></div>
+  </div>
+
+  <div class="feature-row">
+    <div class="feature-pill"><span>🔒</span> E2E Encrypted</div>
+    <div class="feature-pill"><span>⚡</span> Hybrid P2P</div>
+    <div class="feature-pill"><span>📝</span> Collaborative Editor</div>
+    <div class="feature-pill"><span>📹</span> HD Video Calls</div>
+  </div>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/login.js"></script>
+</body>
+</html>

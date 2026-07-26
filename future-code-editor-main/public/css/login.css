@@ -1,0 +1,72 @@
+/* login.css — consistent with chat.css VS Code theme */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Geist:wght@300;400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --vsc-bg:      #1e1e1e;
+  --vsc-panel:   #2d2d30;
+  --vsc-border:  #454545;
+  --vsc-hover:   #2a2d2e;
+  --accent:      #007acc;
+  --accent-green:#4ec9b0;
+  --accent-red:  #f44747;
+  --text-primary:#cccccc;
+  --text-dim:    #6a6a6a;
+  --font-ui:     'Geist', -apple-system, sans-serif;
+  --font-code:   'JetBrains Mono', monospace;
+}
+
+html, body { height: 100%; background: var(--vsc-bg); color: var(--text-primary); font-family: var(--font-ui); overflow: hidden; }
+
+.login-page {
+  height: 100vh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 28px; position: relative; overflow: hidden;
+}
+
+/* Ambient glows */
+.bg-glow { position: fixed; border-radius: 50%; filter: blur(130px); pointer-events: none; opacity: 0.1; animation: drift 20s ease-in-out infinite; }
+.bg-glow-1 { width: 500px; height: 500px; background: #007acc; top: -150px; left: -150px; }
+.bg-glow-2 { width: 400px; height: 400px; background: #4ec9b0; bottom: -100px; right: -100px; animation-delay: 8s; }
+@keyframes drift { 0%,100% { transform: translate(0,0); } 50% { transform: translate(20px,-20px); } }
+
+/* Login card */
+.login-card {
+  position: relative; z-index: 2;
+  background: var(--vsc-panel);
+  border: 1px solid var(--vsc-border);
+  border-radius: 12px;
+  padding: 40px 48px;
+  width: 100%; max-width: 460px;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+  animation: cardIn 0.35s ease-out;
+}
+@keyframes cardIn { from { opacity:0; transform: translateY(16px); } to { opacity:1; transform: translateY(0); } }
+
+.login-logo { display: flex; align-items: center; gap: 14px; margin-bottom: 32px; }
+.login-logo-icon { width: 44px; height: 44px; background: var(--accent); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; flex-shrink: 0; }
+.login-title    { font-size: 22px; font-weight: 700; color: white; font-family: var(--font-code); }
+.login-subtitle { font-size: 12px; color: var(--text-dim); margin-top: 2px; }
+
+/* Messages */
+.message { margin-top: 16px; padding: 10px 14px; border-radius: 6px; font-size: 13px; font-weight: 500; animation: fadeIn 0.2s ease; }
+.message.error   { background: rgba(244,71,71,0.1);  color: #f47171; border: 1px solid rgba(244,71,71,0.2); }
+.message.success { background: rgba(78,201,176,0.1); color: #4ec9b0; border: 1px solid rgba(78,201,176,0.2); }
+.message.info    { background: rgba(0,122,204,0.1);  color: #007acc; border: 1px solid rgba(0,122,204,0.2); }
+@keyframes fadeIn { from { opacity:0; transform: translateY(-6px); } to { opacity:1; transform: translateY(0); } }
+
+.spinner { width: 26px; height: 26px; margin: 14px auto 0; border: 2px solid rgba(0,122,204,0.2); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.hidden { display: none !important; }
+
+/* Feature pills */
+.feature-row { position: relative; z-index: 2; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+.feature-pill { display: flex; align-items: center; gap: 6px; padding: 5px 14px; background: rgba(255,255,255,0.04); border: 1px solid var(--vsc-border); border-radius: 20px; font-size: 12px; color: var(--text-dim); }
+
+/* Toast */
+.toast { position: fixed; bottom: 24px; right: 24px; padding: 10px 18px; border-radius: 6px; font-size: 13px; font-family: var(--font-ui); background: var(--vsc-panel); border: 1px solid var(--vsc-border); color: var(--text-primary); opacity: 0; transform: translateY(8px); transition: all 0.25s ease; z-index: 9999; box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+.toast.toast-visible { opacity: 1; transform: translateY(0); }
+.toast.toast-success { border-color: rgba(78,201,176,0.4); color: #4ec9b0; }
+.toast.toast-error   { border-color: rgba(244,71,71,0.4);  color: #f47171; }
+.toast.toast-info    { border-color: rgba(0,122,204,0.4);  color: #007acc; }
